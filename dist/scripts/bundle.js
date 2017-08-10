@@ -29153,7 +29153,7 @@ var Header = React.createClass({displayName: "Header",
       React.createElement("nav", {className: "navbar navbar-default"}, 
         React.createElement("div", {className: "container-fluid"}, 
           React.createElement("a", {href: "/", className: "navbar-brand"}, 
-            React.createElement("img", {src: "images/fixter.png", alt: "pluralsight"})
+            React.createElement("img", {src: "images/fixter.png", alt: "pluralsight", width: "140", height: "35"})
           ), 
           React.createElement("ul", {className: "nav navbar-nav"}, 
             React.createElement("li", null, React.createElement("a", {href: "/"}, "Home")), 
