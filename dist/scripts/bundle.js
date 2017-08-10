@@ -29173,9 +29173,9 @@ var React = require('react');
 
 var Home = React.createClass({displayName: "Home",
   render: function () {
-    return (      
+    return (
       React.createElement("div", {className: "jumbotron"}, 
-        React.createElement("h1", null, "Pluralsight Administration"), 
+        React.createElement("h1", null, "Fixter Administration"), 
         React.createElement("p", null, "React, React Router, and Flux for ultra responsive web apps.")
       )
     );
