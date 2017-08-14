@@ -18,17 +18,19 @@ var AuthorList = React.createClass({
       );
     };
     return (
-      <div className="table-responsive">
-        <table className="table">
-        <thead>
-          <th>ID</th>
-          <th>Name</th>
-        </thead>
-        <tbody>
-          {this.props.authors.map(createAuthorRow, this)}
-        </tbody>
-        </table>
-      </div>
+
+          <div className="table-responsive">
+            <table className="table">
+            <thead>
+              <th>ID</th>
+              <th>Name</th>
+            </thead>
+            <tbody>
+              {this.props.authors.map(createAuthorRow, this)}
+            </tbody>
+            </table>
+          </div>
+        
     );
   }
 });
