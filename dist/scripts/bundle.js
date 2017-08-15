@@ -49684,14 +49684,25 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
   mixins: [
     Router.Navigation
   ],
+
+  statics: {
+    willTransitionFrom: function (transition, component) {
+      if (component.state.dirty && !confirm('Leave without saving? ')) {
+        transition.abort();
+      }
+    }
+  },
+
   getInitialState: function () {
     return {
       author: { id: '', firstName: '', lastName: ''},
-      errors: {}
+      errors: {},
+      dirty: false
     };
   },
 
   setAuthorState: function (event) {
+    this.setState({dirty: true});
     var field = event.target.name;
     var value = event.target.value;
     this.state.author[field] = value;
@@ -49724,6 +49735,7 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
     }
 
     AuthorApi.saveAuthor(this.state.author);
+    this.setState({dirty: false});
     toastr.success('Author saved.');
     this.transitionTo('authors');
   },
@@ -49748,8 +49760,15 @@ var React = require('react');
 var Input = require('../common/textInput');
 
 var AuthorForm = React.createClass({displayName: "AuthorForm",
+  propTypes: {
+    author: React.PropTypes.object.isRequired,
+    onSave: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    errors: React.PropTypes.object
+  },
+
   render: function () {
-    console.log("perro",this.props.errors);
+    console.log("perro", this.props.errors);
     return (
       React.createElement("form", null, 
         React.createElement("h1", null, "Manage Author"), 

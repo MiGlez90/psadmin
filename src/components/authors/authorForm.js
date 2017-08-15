@@ -9,9 +9,10 @@ var AuthorForm = React.createClass({
     onSave: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
     errors: React.PropTypes.object
-  }
+  },
+
   render: function () {
-    console.log("perro",this.props.errors);
+    console.log("perro", this.props.errors);
     return (
       <form>
         <h1>Manage Author</h1>
