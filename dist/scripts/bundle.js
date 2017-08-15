@@ -49562,7 +49562,7 @@ var AuthorApi = {
 
 	saveAuthor: function(author) {
 		//pretend an ajax call to web api is made here
-		console.log('Pretend this just saved the author to the DB via AJAX call...');
+		console.log('Pretend this just saved the author to the DB via AJAX call...', author );
 
 		if (author.id) {
 			var existingAuthorIndex = _.indexOf(authors, _.find(authors, {id: author.id}));
@@ -49686,7 +49686,8 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
   ],
   getInitialState: function () {
     return {
-      author: { id: '', firstName: '', lastName: ''}
+      author: { id: '', firstName: '', lastName: ''},
+      errors: {}
     };
   },
 
@@ -49697,8 +49698,31 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
     return this.setState({author: this.state.author});
   },
 
+  authorFormIsValid: function () {
+    var formIsValid = true;
+    this.state.errors = {}; //clear any previous errors
+    console.log("entre al error");
+    if (this.state.author.firstName.length < 3) {
+      this.state.errors.firstName = 'First name must be at least 3 characters.';
+      formIsValid = false;
+    }
+    if (this.state.author.lastName.length < 3) {
+      this.state.errors.lastName = 'Last name must be at least 3 characters.';
+      formIsValid = false;
+    }
+    console.log(formIsValid);
+    this.setState({errors: this.state.errors});
+    console.log(this.state.errors);
+    return formIsValid;
+  },
+
   saveAuthor: function (event) {
     event.preventDefault();
+
+    if (!this.authorFormIsValid()) {
+      return;
+    }
+
     AuthorApi.saveAuthor(this.state.author);
     toastr.success('Author saved.');
     this.transitionTo('authors');
@@ -49709,7 +49733,8 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
       React.createElement(AuthorForm, {
         author: this.state.author, 
         onChange: this.setAuthorState, 
-        onSave: this.saveAuthor}
+        onSave: this.saveAuthor, 
+        errors: this.state.errors}
       )
     );
   }
@@ -49724,6 +49749,7 @@ var Input = require('../common/textInput');
 
 var AuthorForm = React.createClass({displayName: "AuthorForm",
   render: function () {
+    console.log("perro",this.props.errors);
     return (
       React.createElement("form", null, 
         React.createElement("h1", null, "Manage Author"), 
@@ -49732,14 +49758,16 @@ var AuthorForm = React.createClass({displayName: "AuthorForm",
           label: "First Name", 
           value: this.props.author.firstName, 
           onChange: this.props.onChange, 
-          placeholder: "First name"}
+          placeholder: "First name", 
+          error: this.props.errors.firstName}
         ), 
         React.createElement(Input, {
           name: "lastName", 
           label: "Last Name", 
           value: this.props.author.lastName, 
           onChange: this.props.onChange, 
-          placeholder: "Last Name"}
+          placeholder: "Last Name", 
+          error: this.props.errors.lastName}
         ), 
 
         React.createElement("input", {type: "submit", value: "Save", className: "btn btn-success", onClick: this.props.onSave})
@@ -49870,9 +49898,11 @@ var Input = React.createClass({displayName: "Input",
   },
   render: function () {
     var wrapperClass = "form-group";
+    console.log(this.props.error);
     if (this.props.error && this.props.error.length > 0) {
-      wrapperClass += " " + 'has-error';
+      wrapperClass += " " + "has-error";
     }
+    console.log(wrapperClass);
     return (
       React.createElement("div", {className: wrapperClass}, 
         React.createElement("label", {htmlFor: this.props.name}, this.props.label), 

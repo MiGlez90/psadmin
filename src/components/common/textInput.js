@@ -13,9 +13,11 @@ var Input = React.createClass({
   },
   render: function () {
     var wrapperClass = "form-group";
+    console.log(this.props.error);
     if (this.props.error && this.props.error.length > 0) {
-      wrapperClass += " " + 'has-error';
+      wrapperClass += " " + "has-error";
     }
+    console.log(wrapperClass);
     return (
       <div className={wrapperClass}>
         <label htmlFor={this.props.name}>{this.props.label}</label>
